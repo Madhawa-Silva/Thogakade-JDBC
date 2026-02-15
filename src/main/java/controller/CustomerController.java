@@ -13,6 +13,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.Customer;
 import model.TM.CustomerTM;
 
@@ -84,7 +85,7 @@ public class CustomerController {
     @FXML
     private JFXTextField txtSalary;
 
-    ObservableList<CustomerTM> observableArrayList = FXCollections.observableArrayList();
+
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
@@ -120,7 +121,10 @@ public class CustomerController {
             int rowsAffected = pstm.executeUpdate();
 
             if(rowsAffected > 0) {
-                new Alert(Alert.AlertType.INFORMATION, "Customer Added!").show();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,"Customer Added");
+                Stage stage = (Stage) txtAddress.getScene().getWindow();
+                alert.initOwner(stage);
+                alert.show();
                 loadTable();
             }else{
                 new Alert(Alert.AlertType.ERROR, "Customer Not Added!").show();
@@ -142,6 +146,8 @@ public class CustomerController {
 
     private void loadTable() {
 
+        ObservableList<CustomerTM> observableArrayList = FXCollections.observableArrayList();
+
         observableArrayList.clear();
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -156,12 +162,9 @@ public class CustomerController {
 
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            System.out.println(connection);
 
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM customer");
-
-            System.out.println(resultSet);
 
             while(resultSet.next()){
                 observableArrayList.add(
@@ -178,8 +181,6 @@ public class CustomerController {
                         )
                 );
             }
-
-            System.out.println(observableArrayList);
 
             tblCustomer.setItems(observableArrayList);
 
@@ -251,7 +252,10 @@ public class CustomerController {
             pstm.setString(1,txtId.getText());
 
             if(pstm.executeUpdate()>0){
-                new Alert(Alert.AlertType.INFORMATION,"Customer Deleted").show();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,"Customer Deleted");
+                Stage stage = (Stage) txtAddress.getScene().getWindow();
+                alert.initOwner(stage);
+                alert.show();
                 loadTable();
             }else{
                 new Alert(Alert.AlertType.WARNING,"Customer Not Found").show();

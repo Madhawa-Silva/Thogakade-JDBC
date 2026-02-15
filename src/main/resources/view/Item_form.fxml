@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="657.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ItemController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#25343f" height="57.0" stroke="#f2f2f200" strokeType="INSIDE" width="887.0" />
+        <Label layoutX="334.0" layoutY="4.0" text="Items Form" textFill="WHITE">
+            <font>
+                <Font name="System Bold Italic" size="34.0" />
+            </font>
+        </Label>
+        <JFXTextField fx:id="txtItemCode" layoutX="26.0" layoutY="84.0" prefHeight="26.0" prefWidth="231.0" promptText="ItemCode" />
+        <JFXTextField fx:id="txtDescription" layoutX="302.0" layoutY="84.0" prefHeight="26.0" prefWidth="554.0" promptText="Description" />
+        <JFXTextField fx:id="txtPackSize" layoutX="26.0" layoutY="150.0" prefHeight="26.0" prefWidth="231.0" promptText="Pack size" />
+        <JFXTextField fx:id="txtQty" layoutX="614.0" layoutY="150.0" prefHeight="26.0" prefWidth="231.0" promptText="Qty On Hand" />
+        <JFXTextField fx:id="txtUnitPrice" layoutX="308.0" layoutY="150.0" prefHeight="26.0" prefWidth="231.0" promptText="Unit Price" />
+        <JFXButton fx:id="btnAddCustomer" layoutX="727.0" layoutY="228.0" onAction="#btnAddItemOnAction" prefHeight="33.0" prefWidth="118.0" style="-fx-background-color: #1abc9c;" text="Add Item" textFill="WHITE">
+            <font>
+                <Font name="System Bold Italic" size="13.0" />
+            </font>
+        </JFXButton>
+        <JFXButton fx:id="btnReload" layoutX="597.0" layoutY="228.0" onAction="#btnReloadOnAction" prefHeight="33.0" prefWidth="118.0" style="-fx-background-color: #9b59b6;" text="Reload" textFill="WHITE">
+            <font>
+                <Font name="System Bold Italic" size="13.0" />
+            </font>
+        </JFXButton>
+        <TableView fx:id="tblItems" layoutX="28.0" layoutY="302.0" prefHeight="316.0" prefWidth="832.0">
+            <columns>
+                <TableColumn fx:id="colItemCode" prefWidth="113.0" text="Item Code" />
+                <TableColumn fx:id="colDescription" prefWidth="305.0" text="Description" />
+                <TableColumn fx:id="colPackSize" prefWidth="128.0" text="Pack Size" />
+                <TableColumn fx:id="colUnitPrice" prefWidth="143.0" text="Unit Price" />
+                <TableColumn fx:id="colQtyOnHand" prefWidth="141.0" text="Qty On Hand" />
+            </columns>
+        </TableView>
+        <JFXButton fx:id="btnDelete" layoutX="466.0" layoutY="228.0" onAction="#btnDeleteItemOnAction" prefHeight="33.0" prefWidth="118.0" style="-fx-background-color: #95a5a6;" text="Delete Item" textFill="WHITE">
+            <font>
+                <Font name="System Bold Italic" size="13.0" />
+            </font>
+        </JFXButton>
+        <JFXButton fx:id="btnSearch" layoutX="336.0" layoutY="228.0" onAction="#btnSearchItemOnAction" prefHeight="33.0" prefWidth="118.0" style="-fx-background-color: #2ecc71;" text="Search Item" textFill="WHITE">
+            <font>
+                <Font name="System Bold Italic" size="13.0" />
+            </font>
+        </JFXButton>
+    </children>
+</AnchorPane>
