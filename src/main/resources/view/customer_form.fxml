@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="657.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="57.0" stroke="#f2f2f200" strokeType="INSIDE" width="887.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#25343f" height="57.0" stroke="#f2f2f200" strokeType="INSIDE" width="887.0" />
         <Label layoutX="308.0" layoutY="3.0" text="Customer Form" textFill="WHITE">
             <font>
                 <Font name="System Bold Italic" size="34.0" />
