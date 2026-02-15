@@ -1,4 +1,4 @@
-package controller;
+package controller.Item;
 
 import DB.DBConnection;
 import com.jfoenix.controls.JFXButton;
@@ -12,13 +12,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.Customer;
 import model.Item;
 import model.TM.ItemTM;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemController {
 
@@ -172,43 +171,43 @@ public class ItemController {
 
     private void loadItemTable(){
 
-        ObservableList<ItemTM> observableArrayList = FXCollections.observableArrayList();
+        ItemServiceImpl itemService = new ItemServiceImpl();
 
+        List<Item> all = itemService.getAll();
+
+        ArrayList<ItemTM> itemTMArrayList = new ArrayList<>();
+        all.forEach(item ->{
+            itemTMArrayList.add(new ItemTM(
+                    item.getItemCode(),
+                    item.getDescription(),
+                    item.getPackSize(),
+                    item.getUnitPrice(),
+                    item.getQty()
+            ));
+        });
+
+        tblItems.setItems(FXCollections.observableArrayList(itemTMArrayList));
+
+    }
+
+    @FXML
+    public void initialize(){
         colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colPackSize.setCellValueFactory(new PropertyValueFactory<>("packSize"));
         colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         colQtyOnHand.setCellValueFactory(new PropertyValueFactory<>("qty"));
 
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM item");
-
-            while(resultSet.next()){
-                observableArrayList.add(
-                        new ItemTM(
-                                resultSet.getString(1),
-                                resultSet.getString(2),
-                                resultSet.getString(3),
-                                resultSet.getDouble(4),
-                                resultSet.getInt(5)
-
-                        )
-                );
-            }
-
-            tblItems.setItems(observableArrayList);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @FXML
-    public void initialize(){
         loadItemTable();
+
+        tblItems.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->{
+            System.out.println(observableValue);
+            System.out.println(oldValue);
+            System.out.println(newValue);
+
+
+            setTextToValuesTM((ItemTM) newValue);
+        });
 
     }
 
@@ -219,6 +218,15 @@ public class ItemController {
         txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
         txtQty.setText(String.valueOf(item.getQty()));
     }
+
+    private void setTextToValuesTM(ItemTM itemTM){
+        txtItemCode.setText(itemTM.getItemCode());
+        txtDescription.setText(itemTM.getDescription());
+        txtPackSize.setText(itemTM.getPackSize());
+        txtUnitPrice.setText(String.valueOf(itemTM.getUnitPrice()));
+        txtQty.setText(String.valueOf(itemTM.getQty()));
+    }
+
 
 
 }

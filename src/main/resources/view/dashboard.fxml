@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -25,11 +26,21 @@
             <Font name="System Bold Italic" size="17.0" />
          </font>
       </JFXButton>
-      <ImageView fitHeight="173.0" fitWidth="170.0" layoutX="12.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="126.0" fitWidth="120.0" layoutX="37.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../img/logo.png" />
          </image>
       </ImageView>
       <AnchorPane fx:id="viewPane" layoutX="193.0" prefHeight="657.0" prefWidth="887.0" />
+      <Label layoutX="37.0" layoutY="104.0" prefHeight="26.0" prefWidth="151.0" text="My Shop" textFill="#273a46">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="37.0" layoutY="598.0" prefHeight="26.0" prefWidth="151.0" text="www.myshop.lk" textFill="#273a46">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

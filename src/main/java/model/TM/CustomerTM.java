@@ -4,27 +4,41 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @ToString
 public class CustomerTM {
-    private String id;
-    private String name;
-    private String address;
-    private Date dob;
-    private Double salary;
-    private String city;
-    private String province;
+    String id;
+    String title;
+    String name;
+    LocalDate dob;
+    Double salary;
+    String address;
+    String city;
+    String province;
+    String postalCode;
 
-    public CustomerTM(String id, String title , String name, Date dob, Double salary, String address, String city, String province, String postalCode) {
+    public CustomerTM(String id, String title , String name, LocalDate dob, Double salary, String address, String city, String province, String postalCode) {
         this.id = id;
-        this.name = title+"."+name;
-        this.address = address;
+        this.title = title;
+        this.name = name;
         this.dob = dob;
         this.salary = salary;
-        this.city = city+" - "+postalCode;
+        this.address = address;
+        this.city = city;
         this.province = province;
+        this.postalCode = postalCode;
+    }
+
+    public String getFullName() {
+        return title + "." + name;
+
+    }
+
+    public String getFullCity() {
+        return city + " - " + postalCode;
     }
 }

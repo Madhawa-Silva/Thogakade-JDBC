@@ -1,9 +1,10 @@
-package controller;
+package controller.customer;
 
 import DB.DBConnection;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import controller.Item.ItemServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,13 +16,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
+import model.Item;
 import model.TM.CustomerTM;
+import model.TM.ItemTM;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.List;
 
 public class CustomerController {
 
@@ -146,54 +149,51 @@ public class CustomerController {
 
     private void loadTable() {
 
-        ObservableList<CustomerTM> observableArrayList = FXCollections.observableArrayList();
+        CustomerServiceImpl customerService = new CustomerServiceImpl();
 
-        observableArrayList.clear();
+        List<Customer> all = customerService.getAll();
 
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        colDob.setCellValueFactory(new PropertyValueFactory<>("dob"));
-        colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        colCity.setCellValueFactory(new PropertyValueFactory<>("city"));
-        colProvince.setCellValueFactory(new PropertyValueFactory<>("province"));
+        ArrayList<CustomerTM> customerTMArrayList = new ArrayList<>();
+        all.forEach(customer ->{
+            customerTMArrayList.add(new CustomerTM(
+                    customer.getId(),
+                    customer.getTitle(),
+                    customer.getName(),
+                    customer.getDate(),
+                    customer.getSalary(),
+                    customer.getAddress(),
+                    customer.getCity(),
+                    customer.getProvince(),
+                    customer.getPostalCode()
+            ));
+        });
 
-
-
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM customer");
-
-            while(resultSet.next()){
-                observableArrayList.add(
-                        new CustomerTM(
-                                resultSet.getString(1),
-                                resultSet.getString(2),
-                                resultSet.getString(3),
-                                resultSet.getDate(4),
-                                resultSet.getDouble(5),
-                                resultSet.getString(6),
-                                resultSet.getString(7),
-                                resultSet.getString(8),
-                                resultSet.getString(9)
-                        )
-                );
-            }
-
-            tblCustomer.setItems(observableArrayList);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        tblCustomer.setItems(FXCollections.observableArrayList(customerTMArrayList));
     }
 
     @FXML
     public void initialize(){
+
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colDob.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        colCity.setCellValueFactory(new PropertyValueFactory<>("fullCity"));
+        colProvince.setCellValueFactory(new PropertyValueFactory<>("province"));
+
         loadTable();
 
         cmbTitle.setItems(FXCollections.observableArrayList(Arrays.asList("Mr" , "Ms" , "Miss")));
+
+        tblCustomer.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->{
+            System.out.println(observableValue);
+            System.out.println(oldValue);
+            System.out.println(newValue);
+
+
+            setTextToValuesTM((CustomerTM) newValue);
+        });
     }
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
@@ -241,6 +241,20 @@ public class CustomerController {
         txtCity.setText(customer.getCity());
         txtProvince.setText(customer.getProvince());
         txtPostal.setText(customer.getPostalCode());
+
+    }
+
+    private void setTextToValuesTM(CustomerTM customertm){
+        txtId.setText(customertm.getId());
+        cmbTitle.setValue(customertm.getTitle());
+        txtName.setText(customertm.getName());
+        txtAddress.setText(customertm.getAddress());
+        dateDob.setValue(customertm.getDob());
+        txtSalary.setText(customertm.getSalary().toString());
+        txtCity.setText(customertm.getCity());
+        txtProvince.setText(customertm.getProvince());
+        txtPostal.setText(customertm.getPostalCode());
+
 
     }
 
