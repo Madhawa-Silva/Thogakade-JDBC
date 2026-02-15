@@ -1,5 +1,6 @@
 package controller;
 
+import DB.DBConnection;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -102,8 +103,7 @@ public class CustomerController {
 
         try {
 
-
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "12345");
+            Connection connection = DBConnection.getInstance().getConnection();
 
             PreparedStatement pstm = connection.prepareStatement("INSERT INTO customer VALUES(?,?,?,?,?,?,?,?,?)");
 
@@ -155,7 +155,7 @@ public class CustomerController {
 
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","12345");
+            Connection connection = DBConnection.getInstance().getConnection();
             System.out.println(connection);
 
             Statement statement = connection.createStatement();
@@ -199,7 +199,7 @@ public class CustomerController {
 
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade","root","12345");
+            Connection connection = DBConnection.getInstance().getConnection();
 
             PreparedStatement pstm = connection.prepareStatement("SELECT * FROM customer WHERE CustID = ? ");
 
@@ -244,5 +244,21 @@ public class CustomerController {
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+
+            PreparedStatement pstm = connection.prepareStatement("DELETE FROM customer WHERE CustID = ?");
+            pstm.setString(1,txtId.getText());
+
+            if(pstm.executeUpdate()>0){
+                new Alert(Alert.AlertType.INFORMATION,"Customer Deleted").show();
+                loadTable();
+            }else{
+                new Alert(Alert.AlertType.WARNING,"Customer Not Found").show();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
