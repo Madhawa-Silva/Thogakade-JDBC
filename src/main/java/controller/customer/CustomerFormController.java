@@ -1,7 +1,10 @@
 package controller.customer;
 
 import DB.DBConnection;
+import Service.ServiceFactory;
+import Service.custom.CustomerService;
 import Service.custom.impl.CustomerServiceImpl;
+import Util.ServiceType;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -86,6 +89,7 @@ public class CustomerFormController {
     private JFXTextField txtSalary;
 
 
+    CustomerService serviceType = ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
@@ -102,40 +106,15 @@ public class CustomerFormController {
         Customer customer = new Customer(id,title,name,date,salary,address,city,province,postalCode);
         System.out.println(customer);
 
-        try {
-
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            PreparedStatement pstm = connection.prepareStatement("INSERT INTO customer VALUES(?,?,?,?,?,?,?,?,?)");
-
-            pstm.setString(1,customer.getId());
-            pstm.setString(2,customer.getTitle());
-            pstm.setString(3,customer.getName());
-            pstm.setObject(4, customer.getDate());
-            pstm.setDouble(5,customer.getSalary());
-            pstm.setString(6,customer.getAddress());
-            pstm.setString(7,customer.getCity());
-            pstm.setString(8,customer.getProvince());
-            pstm.setString(9,customer.getPostalCode());
-
-            int rowsAffected = pstm.executeUpdate();
-
-            if(rowsAffected > 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION,"Customer Added");
-                Stage stage = (Stage) txtAddress.getScene().getWindow();
-                alert.initOwner(stage);
-                alert.show();
-                loadTable();
-            }else{
-                new Alert(Alert.AlertType.ERROR, "Customer Not Added!").show();
-            }
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if(serviceType.addCustomer(customer)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,"Customer Added");
+            Stage stage = (Stage) txtAddress.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.show();
+            loadTable();
+        }else{
+            new Alert(Alert.AlertType.WARNING,"Customer Not Added").show();
         }
-
-
     }
 
     @FXML
@@ -194,38 +173,7 @@ public class CustomerFormController {
     }
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
-
-
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM customer WHERE CustID = ? ");
-
-            pstm.setString(1,txtId.getText());
-            ResultSet resultSet = pstm.executeQuery();
-
-            resultSet.next();
-
-            Customer customer = new Customer(
-                    resultSet.getString(1),
-                    resultSet.getString(2),
-                    resultSet.getString(3),
-                    resultSet.getDate(4).toLocalDate(),
-                    resultSet.getDouble(5),
-                    resultSet.getString(6),
-                    resultSet.getString(7),
-                    resultSet.getString(8),
-                    resultSet.getString(9)
-            );
-
-            System.out.println(customer);
-            setTextToValues(customer);
-
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        setTextToValues(serviceType.searchCustomerByID(txtId.getText()));
     }
 
     private void setTextToValues(Customer customer){
@@ -256,13 +204,7 @@ public class CustomerFormController {
     }
 
     public void btnDeleteOnAction(ActionEvent actionEvent) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            PreparedStatement pstm = connection.prepareStatement("DELETE FROM customer WHERE CustID = ?");
-            pstm.setString(1,txtId.getText());
-
-            if(pstm.executeUpdate()>0){
+            if(serviceType.deleteCustomer(txtId.getText())){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION,"Customer Deleted");
                 Stage stage = (Stage) txtAddress.getScene().getWindow();
                 alert.initOwner(stage);
@@ -271,9 +213,5 @@ public class CustomerFormController {
             }else{
                 new Alert(Alert.AlertType.WARNING,"Customer Not Found").show();
             }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

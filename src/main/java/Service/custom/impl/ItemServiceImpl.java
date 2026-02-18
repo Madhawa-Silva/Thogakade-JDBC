@@ -4,17 +4,30 @@ import DB.DBConnection;
 import Service.custom.ItemService;
 import model.Item;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemServiceImpl implements ItemService {
     @Override
     public boolean addItem(Item item) {
-        return false;
+        try {
+
+            Connection connection = DBConnection.getInstance().getConnection();
+
+            PreparedStatement pstm = connection.prepareStatement("INSERT INTO item VALUES(?,?,?,?,?)");
+
+            pstm.setString(1,item.getItemCode());
+            pstm.setString(2,item.getDescription());
+            pstm.setString(3,item.getPackSize());
+            pstm.setDouble(4,item.getUnitPrice());
+            pstm.setInt(5,item.getQty());
+
+            return pstm.executeUpdate()>0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -24,12 +37,44 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public boolean deleteItem(String itemCode) {
-        return false;
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+
+            PreparedStatement pstm = connection.prepareStatement("DELETE FROM item WHERE ItemCode = ?");
+            pstm.setString(1,itemCode);
+
+            return pstm.executeUpdate()>0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Item searchItemByID(String itemCode) {
-        return null;
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+
+            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM item WHERE ItemCode = ? ");
+
+            pstm.setString(1,itemCode);
+            ResultSet resultSet = pstm.executeQuery();
+
+            resultSet.next();
+
+            Item item = new Item(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4),
+                    resultSet.getInt(5)
+            );
+
+            return item;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

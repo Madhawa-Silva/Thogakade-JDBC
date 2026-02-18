@@ -12,15 +12,19 @@ public class  ServiceFactory {
     private ServiceFactory(){}
 
     public static ServiceFactory getInstance(){
-        return instance != null ? instance = new ServiceFactory() : instance;
+        return instance == null ? instance = new ServiceFactory() : instance;
     }
 
-    public <T extends SuperService>T getServiceType(ServiceType serviceType){
-        switch (serviceType){
-            case CUSTOMER:return (T) new CustomerServiceImpl();
-            case ITEM:return (T) new ItemServiceImpl();
-            case ORDER:return (T) new OrderServiceImpl();
+    public <T extends SuperService> T getServiceType(ServiceType serviceType) {
+        switch (serviceType) {
+            case CUSTOMER:
+                return (T) new CustomerServiceImpl();
+            case ITEM:
+                return (T) new ItemServiceImpl();
+            case ORDER:
+                return (T) new OrderServiceImpl();
+            default:
+                return null;
         }
-        return null;
     }
 }

@@ -1,7 +1,11 @@
 package controller.Item;
 
 import DB.DBConnection;
+import Service.ServiceFactory;
+import Service.custom.CustomerService;
+import Service.custom.ItemService;
 import Service.custom.impl.ItemServiceImpl;
+import Util.ServiceType;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
@@ -66,6 +70,8 @@ public class ItemFormController {
     @FXML
     private JFXTextField txtUnitPrice;
 
+    ItemService serviceType = ServiceFactory.getInstance().getServiceType(ServiceType.ITEM);
+
     @FXML
     void btnAddItemOnAction(ActionEvent event) {
         String itemCode = txtItemCode.getText();
@@ -77,22 +83,7 @@ public class ItemFormController {
         Item item = new Item(itemCode,description,packSize,price,qty);
         System.out.println(item);
 
-        try {
-
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            PreparedStatement pstm = connection.prepareStatement("INSERT INTO item VALUES(?,?,?,?,?)");
-
-            pstm.setString(1,item.getItemCode());
-            pstm.setString(2,item.getDescription());
-            pstm.setString(3,item.getPackSize());
-            pstm.setDouble(4,item.getUnitPrice());
-            pstm.setInt(5,item.getQty());
-
-
-            int rowsAffected = pstm.executeUpdate();
-
-            if(rowsAffected > 0) {
+            if(serviceType.addItem(item)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION,"Item Added");
                 Stage stage = (Stage) txtItemCode.getScene().getWindow();
                 alert.initOwner(stage);
@@ -103,32 +94,21 @@ public class ItemFormController {
             }
 
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
 
     }
 
     @FXML
     void btnDeleteItemOnAction(ActionEvent event) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
 
-            PreparedStatement pstm = connection.prepareStatement("DELETE FROM item WHERE ItemCode = ?");
-            pstm.setString(1,txtItemCode.getText());
-
-            if(pstm.executeUpdate()>0){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION,"Item Deleted");
-                Stage stage = (Stage) txtItemCode.getScene().getWindow();
-                alert.initOwner(stage);
-                alert.show();
-                loadItemTable();
-            }else{
-                new Alert(Alert.AlertType.WARNING,"Item Not Found").show();
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        if(serviceType.deleteItem(txtItemCode.getText())){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,"Item Deleted");
+            Stage stage = (Stage) txtItemCode.getScene().getWindow();
+            alert.initOwner(stage);
+            alert.show();
+            loadItemTable();
+        }else{
+            new Alert(Alert.AlertType.WARNING,"Item Not Found").show();
         }
 
     }
@@ -141,32 +121,7 @@ public class ItemFormController {
 
     @FXML
     void btnSearchItemOnAction(ActionEvent event) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-
-            PreparedStatement pstm = connection.prepareStatement("SELECT * FROM item WHERE ItemCode = ? ");
-
-            pstm.setString(1,txtItemCode.getText());
-            ResultSet resultSet = pstm.executeQuery();
-
-            resultSet.next();
-
-            Item item = new Item(
-                    resultSet.getString(1),
-                    resultSet.getString(2),
-                    resultSet.getString(3),
-                    resultSet.getDouble(4),
-                    resultSet.getInt(5)
-            );
-
-            setTextToValues(item);
-
-
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+        setTextToValues(serviceType.searchItemByID(txtItemCode.getText()));
     }
 
     private void loadItemTable(){
