@@ -1,8 +1,8 @@
-package controller.customer;
+package Service.custom.impl;
 
 import DB.DBConnection;
+import Service.custom.CustomerService;
 import model.Customer;
-import model.TM.CustomerTM;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
     @Override
     public boolean addCustomer(Customer customer) {
         return false;
@@ -64,5 +64,4 @@ public class CustomerServiceImpl implements CustomerService{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-}
+    }}

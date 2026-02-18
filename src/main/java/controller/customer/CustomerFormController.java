@@ -1,12 +1,11 @@
 package controller.customer;
 
 import DB.DBConnection;
+import Service.custom.impl.CustomerServiceImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import controller.Item.ItemServiceImpl;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -16,9 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
-import model.Item;
 import model.TM.CustomerTM;
-import model.TM.ItemTM;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -26,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CustomerController {
+public class CustomerFormController {
 
     public JFXButton btnDelete;
     public JFXButton btnSearch;

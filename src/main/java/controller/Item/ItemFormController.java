@@ -1,10 +1,10 @@
 package controller.Item;
 
 import DB.DBConnection;
+import Service.custom.impl.ItemServiceImpl;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -19,7 +19,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemController {
+public class ItemFormController {
 
     @FXML
     private JFXButton btnAddItem;

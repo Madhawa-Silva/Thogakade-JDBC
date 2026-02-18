@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="657.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Item.ItemController">
+<AnchorPane prefHeight="657.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Item.ItemFormController">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#25343f" height="57.0" stroke="#f2f2f200" strokeType="INSIDE" width="887.0" />
         <Label layoutX="334.0" layoutY="4.0" text="Items Form" textFill="WHITE">
@@ -22,7 +22,7 @@
         <JFXTextField fx:id="txtPackSize" layoutX="26.0" layoutY="150.0" prefHeight="26.0" prefWidth="231.0" promptText="Pack size" />
         <JFXTextField fx:id="txtQty" layoutX="614.0" layoutY="150.0" prefHeight="26.0" prefWidth="231.0" promptText="Qty On Hand" />
         <JFXTextField fx:id="txtUnitPrice" layoutX="308.0" layoutY="150.0" prefHeight="26.0" prefWidth="231.0" promptText="Unit Price" />
-        <JFXButton fx:id="btnAddCustomer" layoutX="727.0" layoutY="228.0" onAction="#btnAddItemOnAction" prefHeight="33.0" prefWidth="118.0" style="-fx-background-color: #1abc9c;" text="Add Item" textFill="WHITE">
+        <JFXButton fx:id="btnAddItem" layoutX="727.0" layoutY="228.0" onAction="#btnAddItemOnAction" prefHeight="33.0" prefWidth="118.0" style="-fx-background-color: #1abc9c;" text="Add Item" textFill="WHITE">
             <font>
                 <Font name="System Bold Italic" size="13.0" />
             </font>

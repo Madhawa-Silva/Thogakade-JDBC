@@ -1,11 +1,8 @@
-package controller.Item;
+package Service.custom.impl;
 
 import DB.DBConnection;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.cell.PropertyValueFactory;
+import Service.custom.ItemService;
 import model.Item;
-import model.TM.ItemTM;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemServiceImpl implements ItemService{
+public class ItemServiceImpl implements ItemService {
     @Override
     public boolean addItem(Item item) {
         return false;
