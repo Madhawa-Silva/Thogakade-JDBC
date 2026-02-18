@@ -1,9 +1,9 @@
-package Service;
+package service;
 
-import Service.custom.impl.CustomerServiceImpl;
-import Service.custom.impl.ItemServiceImpl;
-import Service.custom.impl.OrderServiceImpl;
-import Util.ServiceType;
+import service.custom.impl.CustomerServiceImpl;
+import service.custom.impl.ItemServiceImpl;
+import service.custom.impl.OrderServiceImpl;
+import util.ServiceType;
 
 public class  ServiceFactory {
 

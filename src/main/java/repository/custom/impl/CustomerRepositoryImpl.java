@@ -1,16 +1,17 @@
-package Service.custom.impl;
+package repository.custom.impl;
 
 import DB.DBConnection;
-import Service.custom.CustomerService;
 import model.Customer;
+import repository.custom.CustomerRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerRepositoryImpl implements CustomerRepository {
+
     @Override
-    public boolean addCustomer(Customer customer) {
+    public boolean create(Customer customer) {
         try {
 
             Connection connection = DBConnection.getInstance().getConnection();
@@ -35,19 +36,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public boolean updateCustomer(Customer customer) {
+    public boolean update(Customer customer) {
         return false;
     }
 
     @Override
-    public boolean deleteCustomer(String id) {
+    public boolean deleteById(String id) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
 
             PreparedStatement pstm = connection.prepareStatement("DELETE FROM customer WHERE CustID = ?");
             pstm.setString(1,id);
 
-        return pstm.executeUpdate()>0 ;
+            return pstm.executeUpdate()>0 ;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -55,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer searchCustomerByID(String id) {
+    public Customer getById(String id) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
 
@@ -119,4 +120,5 @@ public class CustomerServiceImpl implements CustomerService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }}
+    }
+}

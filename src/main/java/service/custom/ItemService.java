@@ -1,6 +1,6 @@
-package Service.custom;
+package service.custom;
 
-import Service.SuperService;
+import service.SuperService;
 import model.Item;
 
 import java.util.List;

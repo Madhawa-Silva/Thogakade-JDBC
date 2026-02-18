@@ -1,6 +1,6 @@
-package Service.custom;
+package service.custom;
 
-import Service.SuperService;
+import service.SuperService;
 import model.Customer;
 
 import java.util.List;

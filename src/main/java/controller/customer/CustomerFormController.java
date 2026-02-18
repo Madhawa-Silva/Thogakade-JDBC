@@ -1,10 +1,9 @@
 package controller.customer;
 
-import DB.DBConnection;
-import Service.ServiceFactory;
-import Service.custom.CustomerService;
-import Service.custom.impl.CustomerServiceImpl;
-import Util.ServiceType;
+import service.ServiceFactory;
+import service.custom.CustomerService;
+import service.custom.impl.CustomerServiceImpl;
+import util.ServiceType;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -20,7 +19,6 @@ import javafx.stage.Stage;
 import model.Customer;
 import model.TM.CustomerTM;
 
-import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;

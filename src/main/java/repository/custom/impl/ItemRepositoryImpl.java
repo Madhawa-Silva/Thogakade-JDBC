@@ -1,16 +1,17 @@
-package Service.custom.impl;
+package repository.custom.impl;
 
 import DB.DBConnection;
-import Service.custom.ItemService;
 import model.Item;
+import repository.custom.ItemRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemServiceImpl implements ItemService {
+public class ItemRepositoryImpl implements ItemRepository {
+
     @Override
-    public boolean addItem(Item item) {
+    public boolean create(Item item) {
         try {
 
             Connection connection = DBConnection.getInstance().getConnection();
@@ -31,12 +32,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public boolean updateItem(Item item) {
+    public boolean update(Item item) {
         return false;
     }
 
     @Override
-    public boolean deleteItem(String itemCode) {
+    public boolean deleteById(String itemCode) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
 
@@ -51,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item searchItemByID(String itemCode) {
+    public Item getById(String itemCode) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
 
@@ -79,7 +80,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getAll() {
-
         try {
             Connection connection = DBConnection.getInstance().getConnection();
 

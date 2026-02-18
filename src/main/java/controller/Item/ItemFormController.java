@@ -1,11 +1,9 @@
 package controller.Item;
 
-import DB.DBConnection;
-import Service.ServiceFactory;
-import Service.custom.CustomerService;
-import Service.custom.ItemService;
-import Service.custom.impl.ItemServiceImpl;
-import Util.ServiceType;
+import service.ServiceFactory;
+import service.custom.ItemService;
+import service.custom.impl.ItemServiceImpl;
+import util.ServiceType;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
@@ -19,7 +17,6 @@ import javafx.stage.Stage;
 import model.Item;
 import model.TM.ItemTM;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
