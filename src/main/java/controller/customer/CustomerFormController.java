@@ -123,9 +123,7 @@ public class CustomerFormController {
 
     private void loadTable() {
 
-        CustomerServiceImpl customerService = new CustomerServiceImpl();
-
-        List<Customer> all = customerService.getAll();
+        List<Customer> all = serviceType.getAll();
 
         ArrayList<CustomerTM> customerTMArrayList = new ArrayList<>();
         all.forEach(customer ->{
