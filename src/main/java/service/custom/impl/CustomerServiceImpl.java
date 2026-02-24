@@ -7,6 +7,7 @@ import service.custom.CustomerService;
 import model.Customer;
 import util.RepositoryType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
@@ -37,4 +38,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Customer> getAll() {
         return customerRepository.getAll();
-    }}
+    }
+
+    @Override
+    public List<String> getAllCustomerId() {
+
+        List<Customer> all = getAll();
+
+        ArrayList<String> idList = new ArrayList<>();
+        for(Customer customer : all){
+            idList.add(customer.getId());
+        }
+        return idList;
+    }
+}

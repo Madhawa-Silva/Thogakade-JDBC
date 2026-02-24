@@ -2,7 +2,9 @@ package repository.custom.impl;
 
 import DB.DBConnection;
 import model.Item;
+import model.OrderDetail;
 import repository.custom.ItemRepository;
+import util.CrudUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -106,5 +108,31 @@ public class ItemRepositoryImpl implements ItemRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<String> getItemCode() throws SQLException {
+        ArrayList<String> itemCodeList = new ArrayList<>();
+
+        List<Item> all = getAll();
+
+        all.forEach(item -> itemCodeList.add(item.getItemCode()));
+
+        return itemCodeList;
+    }
+
+    @Override
+    public boolean updateStock(List<OrderDetail> orderDetailList) throws SQLException {
+        for(OrderDetail orderDetails : orderDetailList){
+            boolean isUpdateStock = updateStock(orderDetails);
+            if(!isUpdateStock){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean updateStock(OrderDetail orderDetail ) throws SQLException {
+        return CrudUtil.execute("UPDATE item SET Stock  = Stock - ? WHERE ItemCode = ? " , orderDetail.getQtyOnHand() , orderDetail.getItemCode());
     }
 }

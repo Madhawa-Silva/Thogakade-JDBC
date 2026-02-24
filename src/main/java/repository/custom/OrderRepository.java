@@ -1,7 +1,12 @@
 package repository.custom;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud;
-import repository.CrudRepository;
 
-public interface OrderRepository extends CrudRepository<MysqlxCrud.Order, String> {
+import model.Order;
+import repository.SuperRepository;
+
+import java.sql.SQLException;
+
+public interface OrderRepository extends SuperRepository {
+
+    boolean placeOrder(Order order) throws SQLException;
 }

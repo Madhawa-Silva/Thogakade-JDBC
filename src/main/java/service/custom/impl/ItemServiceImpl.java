@@ -1,6 +1,7 @@
 package service.custom.impl;
 
 
+import model.Customer;
 import repository.RepositoryFactory;
 import repository.custom.ItemRepository;
 import service.custom.ItemService;
@@ -8,6 +9,7 @@ import model.Item;
 import util.RepositoryType;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemServiceImpl implements ItemService {
@@ -39,4 +41,16 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.getAll();
 
     }
+
+    @Override
+    public List<String> getAllItemCode() {
+        List<Item> all = getAll();
+
+        ArrayList<String> itemCodeList = new ArrayList<>();
+        for(Item item : all){
+            itemCodeList.add(item.getItemCode());
+        }
+        return  itemCodeList;
+    }
+
 }

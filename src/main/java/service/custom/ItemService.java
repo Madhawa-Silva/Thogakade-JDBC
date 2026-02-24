@@ -11,4 +11,6 @@ public interface ItemService extends SuperService {
     boolean deleteItem(String itemCode);
     Item searchItemByID(String itemCode);
     List<Item> getAll();
+    List<String> getAllItemCode();
+
 }
